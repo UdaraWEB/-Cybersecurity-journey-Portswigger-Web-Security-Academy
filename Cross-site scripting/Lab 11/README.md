@@ -9,7 +9,7 @@
 4. I embedded the target website inside an `<iframe>` and passed the allowed payload through the search parameter. I used the `onload` event to
     dynamically resize the iframe width, forcing the `onresize` trigger automatically:
    ```html
-   <iframe src="https://<YOUR-LAB-ID>.web-security-academy.net/?search=%3Cbody+onresize%3Dprint%28%29%3E" onload="this.style.width='500px'"></iframe>
+   <iframe src="https://0ae200c404980de88026033c00240063.web-security-academy.net/?search=%3Cbody+onresize%3Dprint%28%29%3E" onload="this.style.width='500px'"></iframe>
    ```
 8. I delivered the exploit to the victim, which automatically resized the iframe, triggered the `print()` function inside the vulnerable body context, and successfully solved the lab.
 
