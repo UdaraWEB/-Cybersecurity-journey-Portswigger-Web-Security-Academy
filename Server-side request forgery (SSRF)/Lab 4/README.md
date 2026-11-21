@@ -1,4 +1,4 @@
-# Lab: Basic SSRF against the local server
+# Lab: SSRF with blacklist-based input filter 
 
 ## How to Solve
 
